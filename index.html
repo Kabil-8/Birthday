@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday My Wonderful Sister ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --deep-purple: #1a0825;
+    --purple-mid: #2d0a3e;
+    --rose: #c2185b;
+    --pink: #e91e8c;
+    --soft-pink: #f48fb1;
+    --gold: #ffd700;
+    --soft-gold: #ffe066;
+    --cream: #fff8f0;
+    --glow-pink: rgba(233,30,140,0.6);
+    --glow-gold: rgba(255,215,0,0.5);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: radial-gradient(ellipse at 20% 20%, #3d0d4f 0%, #1a0825 40%, #0d0015 100%);
+    min-height: 100vh;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--cream);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── CANVAS ── */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── THREE.JS CANVAS ── */
+  #three-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ── WRAPPER ── */
+  .page {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px 40px;
+    text-align: center;
+  }
+
+  /* Photo ring */
+  .photo-wrapper {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin-bottom: 44px;
+    animation: photoZoomIn 1.4s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes photoZoomIn {
+    from { transform: scale(0.4); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  .photo-ring {
+    position: absolute;
+    inset: -18px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    background: linear-gradient(135deg, var(--gold), var(--pink), var(--soft-pink), var(--gold)) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    animation: spinRing 8s linear infinite;
+    box-shadow: 0 0 30px var(--glow-pink), 0 0 60px var(--glow-gold);
+  }
+  @keyframes spinRing {
+    to { transform: rotate(360deg); }
+  }
+
+  .photo-glow {
+    position: absolute;
+    inset: -30px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(233,30,140,0.25) 0%, transparent 70%);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1);   opacity: .7; }
+    50%      { transform: scale(1.1); opacity: 1;  }
+  }
+
+  .photo-circle {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid rgba(255,215,0,0.6);
+    box-shadow: 0 0 40px var(--glow-pink), inset 0 0 20px rgba(0,0,0,.4);
+    position: relative;
+    z-index: 2;
+  }
+  .photo-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Placeholder shown when no real photo is loaded */
+  .photo-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #4a1060, #c2185b, #e91e8c);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    gap: 6px;
+  }
+  .photo-placeholder span {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: rgba(255,255,255,.7);
+    letter-spacing: 1px;
+  }
+
+  /* Hero text */
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.7rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.25;
+    background: linear-gradient(135deg, var(--soft-gold), var(--soft-pink), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    animation: fadeGlow 1.8s 0.6s both;
+    filter: drop-shadow(0 0 18px rgba(255,200,100,.5));
+    max-width: 700px;
+  }
+  @keyframes fadeGlow {
+    from { opacity: 0; transform: translateY(30px); filter: drop-shadow(0 0 0px transparent); }
+    to   { opacity: 1; transform: translateY(0);    filter: drop-shadow(0 0 18px rgba(255,200,100,.5)); }
+  }
+
+  .hero-subtitle {
+    margin-top: 18px;
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-style: italic;
+    color: rgba(255,220,240,0.85);
+    max-width: 560px;
+    line-height: 1.8;
+    animation: fadeGlow 1.8s 1.1s both;
+  }
+
+  /* ── FLOATING 2-D HEARTS ── */
+  .heart-field {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .fheart {
+    position: absolute;
+    bottom: -60px;
+    font-size: 20px;
+    opacity: 0;
+    animation: floatHeart linear infinite;
+    pointer-events: none;
+  }
+  @keyframes floatHeart {
+    0%   { opacity: 0;   transform: translateY(0)   scale(.8) rotate(0deg); }
+    10%  { opacity: .9; }
+    90%  { opacity: .7; }
+    100% { opacity: 0;   transform: translateY(-110vh) scale(1.2) rotate(30deg); }
+  }
+
+  /* ── SPARKLES ── */
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 3;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--soft-gold);
+    box-shadow: 0 0 8px var(--gold), 0 0 16px var(--gold);
+    animation: sparkleFade 1s forwards;
+  }
+  @keyframes sparkleFade {
+    0%   { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0) translateY(-30px); }
+  }
+
+  /* ── MESSAGE CARD ── */
+  .message-section {
+    padding: 60px 20px 80px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .message-card {
+    max-width: 680px;
+    width: 100%;
+    background: linear-gradient(135deg,
+      rgba(60,10,80,.75) 0%,
+      rgba(30,5,45,.85) 100%);
+    border: 1px solid rgba(233,30,140,.35);
+    border-radius: 28px;
+    padding: 50px 44px;
+    box-shadow:
+      0 0 40px rgba(233,30,140,.2),
+      0 0 80px rgba(255,215,0,.1),
+      inset 0 0 30px rgba(60,0,80,.5);
+    position: relative;
+    overflow: hidden;
+    animation: cardReveal 1.2s 1.5s both;
+  }
+  @keyframes cardReveal {
+    from { opacity: 0; transform: translateY(50px) scale(.96); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);   }
+  }
+
+  .card-hearts {
+    position: absolute;
+    font-size: 22px;
+    opacity: .35;
+    animation: floatCard 4s ease-in-out infinite;
+  }
+  @keyframes floatCard {
+    0%,100% { transform: translateY(0) rotate(-10deg); }
+    50%     { transform: translateY(-14px) rotate(10deg); }
+  }
+
+  .card-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+    font-style: italic;
+    line-height: 1.9;
+    color: rgba(255,230,245,.92);
+    text-align: center;
+  }
+
+  .card-quote strong {
+    display: block;
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    font-style: normal;
+    background: linear-gradient(90deg, var(--gold), var(--soft-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 10px rgba(255,200,100,.4));
+  }
+
+  .card-divider {
+    margin: 28px auto;
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--pink), transparent);
+  }
+
+  /* ── SURPRISE BUTTON ── */
+  .btn-section {
+    display: flex;
+    justify-content: center;
+    padding: 0 20px 80px;
+  }
+
+  .surprise-btn {
+    position: relative;
+    padding: 18px 48px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+    color: #fff;
+    background: linear-gradient(135deg, #9c0050, #c2185b, #e91e8c, #9c0050);
+    background-size: 300% 300%;
+    border: none;
+    border-radius: 60px;
+    cursor: pointer;
+    box-shadow:
+      0 0 30px rgba(233,30,140,.5),
+      0 8px 32px rgba(0,0,0,.4);
+    animation: btnShimmer 4s ease infinite, btnBob 2.5s ease-in-out infinite;
+    transition: transform .15s, box-shadow .15s;
+    overflow: hidden;
+  }
+  @keyframes btnShimmer {
+    0%,100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  @keyframes btnBob {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-6px); }
+  }
+  .surprise-btn:hover {
+    box-shadow: 0 0 50px rgba(233,30,140,.8), 0 12px 40px rgba(0,0,0,.5);
+    transform: scale(1.05) !important;
+  }
+  .surprise-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.15) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform .6s;
+  }
+  .surprise-btn:hover::before { transform: translateX(100%); }
+
+  /* ── POPUP ── */
+  .popup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(10,0,20,.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .4s;
+  }
+  .popup-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .popup-box {
+    background: linear-gradient(135deg, #2d0a3e, #1a0825);
+    border: 2px solid rgba(233,30,140,.5);
+    border-radius: 28px;
+    padding: 54px 48px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 80px rgba(233,30,140,.4), 0 0 120px rgba(255,215,0,.15);
+    animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+    position: relative;
+  }
+  @keyframes popIn {
+    from { transform: scale(.5) rotate(-5deg); opacity: 0; }
+    to   { transform: scale(1)  rotate(0deg);  opacity: 1; }
+  }
+  .popup-emoji { font-size: 64px; display: block; margin-bottom: 16px; animation: wiggle 1s ease-in-out infinite; }
+  @keyframes wiggle {
+    0%,100% { transform: rotate(-8deg); }
+    50%     { transform: rotate(8deg);  }
+  }
+  .popup-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    background: linear-gradient(135deg, var(--gold), var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 14px;
+  }
+  .popup-msg {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: rgba(255,220,240,.85);
+    line-height: 1.7;
+  }
+  .popup-close {
+    margin-top: 32px;
+    padding: 12px 36px;
+    background: linear-gradient(135deg, var(--rose), var(--pink));
+    border: none;
+    border-radius: 40px;
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(233,30,140,.4);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .popup-close:hover { transform: scale(1.06); box-shadow: 0 0 35px rgba(233,30,140,.6); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 30px 20px 50px;
+    font-size: 1rem;
+    font-style: italic;
+    color: rgba(255,190,220,.6);
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 10;
+  }
+  footer span {
+    color: var(--pink);
+    font-style: normal;
+    filter: drop-shadow(0 0 6px var(--pink));
+  }
+
+  /* ── MUSIC NOTE ── */
+  .music-hint {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 20;
+    background: rgba(60,10,80,.8);
+    border: 1px solid rgba(233,30,140,.4);
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: .85rem;
+    color: rgba(255,200,230,.7);
+    backdrop-filter: blur(10px);
+    transition: opacity .4s;
+  }
+  .music-hint.hidden { opacity: 0; pointer-events: none; }
+  .note-icon { animation: noteBounce 1.2s ease-in-out infinite; display: inline-block; }
+  @keyframes noteBounce {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-4px); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 520px) {
+    .message-card { padding: 36px 22px; }
+    .popup-box    { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background canvas (2D particles) -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- Three.js canvas (3D) -->
+<canvas id="three-canvas"></canvas>
+
+<!-- Floating 2D hearts layer -->
+<div class="heart-field" id="heartField"></div>
+
+<!-- ════ PAGE ════ -->
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="photo-wrapper" id="photoWrapper">
+      <div class="photo-glow"></div>
+      <div class="photo-ring"></div>
+      <div class="photo-circle">
+    <img src="Ash1.jpeg" alt="My Sister">
+</div>
+    </div>
+
+    <h1 class="hero-title">Happy Birthday <br>My Wonderful Sister ❤️</h1>
+    <p class="hero-subtitle">
+      You are one of the most special people in my life.<br>
+      Your kindness, smile, and strength inspire everyone around you.
+    </p>
+  </section>
+
+  <!-- MESSAGE CARD -->
+  <section class="message-section">
+    <div class="message-card">
+      <div class="card-hearts" style="top:18px;left:22px;">💖</div>
+      <div class="card-hearts" style="top:18px;right:22px; animation-delay:.8s;">💕</div>
+      <div class="card-hearts" style="bottom:18px;left:50%;transform:translateX(-50%); animation-delay:1.6s;">✨</div>
+
+      <div class="card-quote">
+        <strong>A Birthday Letter From the Heart</strong>
+        Happy Birthday to the most amazing sister in the world.
+        From the very first day I can remember, you have been my biggest supporter,
+        my greatest comfort, and my brightest light.<br><br>
+        You bring happiness wherever you go — your laughter is contagious,
+        your heart is pure gold, and your spirit is unbreakable.<br><br>
+        May this year shower you with every blessing you deserve:
+        deep love, radiant health, wild success, and moments so beautiful
+        they take your breath away.
+        <div class="card-divider"></div>
+        You are not just my sister — you are my forever friend. 🌹
+        💖🌹 Love You...Forever and Ever and Ever 🌹💕
+      </div>
+    </div>
+  </section>
+
+  <!-- SURPRISE BUTTON -->
+  <div class="btn-section">
+    <button class="surprise-btn" id="surpriseBtn">
+      Click for Birthday Surprise 🎁
+    </button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>Made with <span>❤️</span> especially for you.</footer>
+</div>
+
+<!-- ════ POPUP ════ -->
+<div class="popup-overlay" id="popup">
+  <div class="popup-box">
+    <span class="popup-emoji">🎉</span>
+    <div class="popup-title">I Love You So Much!</div>
+    <p class="popup-msg">
+      Happy Birthday, my dearest sister!<br>
+      Every day with you is a gift I never take for granted.<br>
+      Wishing you a lifetime of love, joy, and magic. ✨🌸
+      Once Again Happy Birthday! 🎂🎈
+      💖🌹 Love You...Forever and Ever and Ever 🌹💕
+    </p>
+    <button class="popup-close" id="popupClose">Close 💕</button>
+  </div>
+</div>
+
+<!-- Music hint -->
+<div class="music-hint" id="musicHint">
+  <span class="note-icon">🎵</span> Click anywhere to start music
+</div>
+
+<!-- ════ SCRIPTS ════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ══════════════════════════════════════════
+   1. FLOATING 2D HEARTS
+══════════════════════════════════════════ */
+const heartField = document.getElementById('heartField');
+const heartChars = ['❤️','💖','💕','💗','💓','💞','🌸','✨'];
+
+function spawnHeart() {
+  const h = document.createElement('div');
+  h.className = 'fheart';
+  h.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+  const size = 14 + Math.random() * 22;
+  h.style.fontSize = size + 'px';
+  h.style.left = Math.random() * 100 + '%';
+  const dur = 8 + Math.random() * 14;
+  h.style.animationDuration = dur + 's';
+  h.style.animationDelay = (Math.random() * 6) + 's';
+  h.style.opacity = 0;
+  heartField.appendChild(h);
+  setTimeout(() => h.remove(), (dur + 6) * 1000);
+}
+for (let i = 0; i < 28; i++) setTimeout(spawnHeart, i * 420);
+setInterval(spawnHeart, 1200);
+
+/* ══════════════════════════════════════════
+   2. MOUSE-REACTIVE HEARTS (cursor sparkles)
+══════════════════════════════════════════ */
+let lastSparkle = 0;
+document.addEventListener('mousemove', (e) => {
+  const now = Date.now();
+  if (now - lastSparkle < 80) return;
+  lastSparkle = now;
+
+  const s = document.createElement('div');
+  s.className = 'sparkle';
+  s.style.left = (e.clientX - 3) + 'px';
+  s.style.top  = (e.clientY - 3) + 'px';
+  s.style.width  = (4 + Math.random() * 6) + 'px';
+  s.style.height = s.style.width;
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 1000);
+
+  // gently nudge 3D scene
+  if (window._threeScene) {
+    window._threeScene.mouseX = (e.clientX / innerWidth  - .5) * 2;
+    window._threeScene.mouseY = (e.clientY / innerHeight - .5) * 2;
+  }
+});
+
+/* ══════════════════════════════════════════
+   3. THREE.JS — 3D FLOATING HEARTS & PARTICLES
+══════════════════════════════════════════ */
+(function initThree() {
+  const canvas = document.getElementById('three-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(innerWidth, innerHeight);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 200);
+  camera.position.set(0, 0, 18);
+
+  /* Heart shape */
+  function makeHeartShape() {
+    const s = new THREE.Shape();
+    s.moveTo(0, 0.5);
+    s.bezierCurveTo( 0,    1,    1,    1,    1,   0);
+    s.bezierCurveTo( 1,   -0.5,  0.4, -1,    0,  -1.3);
+    s.bezierCurveTo(-0.4, -1,   -1,   -0.5, -1,   0);
+    s.bezierCurveTo(-1,    1,    0,    1,    0,   0.5);
+    return s;
+  }
+
+  const heartGeo = new THREE.ExtrudeGeometry(makeHeartShape(), {
+    depth: 0.3, bevelEnabled: true, bevelSize: 0.06, bevelThickness: 0.06, bevelSegments: 4
+  });
+  heartGeo.center();
+
+  const heartColors = [0xe91e8c, 0xc2185b, 0xff6090, 0xff90b3, 0xffd700, 0xff4081];
+  const hearts = [];
+
+  for (let i = 0; i < 22; i++) {
+    const mat = new THREE.MeshStandardMaterial({
+      color: heartColors[i % heartColors.length],
+      emissive: heartColors[i % heartColors.length],
+      emissiveIntensity: 0.35,
+      roughness: 0.3,
+      metalness: 0.4,
+      transparent: true,
+      opacity: 0.75 + Math.random() * .2,
+    });
+    const mesh = new THREE.Mesh(heartGeo, mat);
+    const r = 6 + Math.random() * 14;
+    const theta = Math.random() * Math.PI * 2;
+    const phi   = Math.random() * Math.PI;
+    mesh.position.set(
+      r * Math.sin(phi) * Math.cos(theta),
+      r * Math.sin(phi) * Math.sin(theta) - 2,
+      r * Math.cos(phi) - 4
+    );
+    const sc = 0.3 + Math.random() * 0.55;
+    mesh.scale.setScalar(sc);
+    mesh.userData = {
+      vy:    0.008 + Math.random() * 0.015,
+      rotX:  (Math.random() - .5) * 0.02,
+      rotY:  (Math.random() - .5) * 0.025,
+      baseY: mesh.position.y,
+      phase: Math.random() * Math.PI * 2,
+    };
+    scene.add(mesh);
+    hearts.push(mesh);
+  }
+
+  /* Glowing particles */
+  const ptCount = 600;
+  const ptPositions = new Float32Array(ptCount * 3);
+  for (let i = 0; i < ptCount; i++) {
+    ptPositions[i*3]   = (Math.random() - .5) * 60;
+    ptPositions[i*3+1] = (Math.random() - .5) * 60;
+    ptPositions[i*3+2] = (Math.random() - .5) * 40 - 10;
+  }
+  const ptGeo = new THREE.BufferGeometry();
+  ptGeo.setAttribute('position', new THREE.BufferAttribute(ptPositions, 3));
+  const ptMat = new THREE.PointsMaterial({
+    color: 0xffd700, size: 0.12, transparent: true, opacity: 0.7, sizeAttenuation: true
+  });
+  scene.add(new THREE.Points(ptGeo, ptMat));
+
+  /* Lights */
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  const pL1 = new THREE.PointLight(0xe91e8c, 3, 60);
+  pL1.position.set(5, 5, 8);
+  scene.add(pL1);
+  const pL2 = new THREE.PointLight(0xffd700, 2, 60);
+  pL2.position.set(-8, -3, 5);
+  scene.add(pL2);
+
+  /* Shared mouse state */
+  window._threeScene = { mouseX: 0, mouseY: 0 };
+
+  /* Resize */
+  window.addEventListener('resize', () => {
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+  });
+
+  /* Animate */
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.012;
+
+    hearts.forEach((h, i) => {
+      h.rotation.x += h.userData.rotX;
+      h.rotation.y += h.userData.rotY;
+      h.position.y = h.userData.baseY + Math.sin(t + h.userData.phase) * 1.2;
+      h.position.y += h.userData.vy * 0.5;
+      if (h.position.y > 22) h.position.y = -18;
+    });
+
+    // gentle camera drift with mouse
+    const mx = window._threeScene.mouseX;
+    const my = window._threeScene.mouseY;
+    camera.position.x += (mx * 1.5 - camera.position.x) * 0.02;
+    camera.position.y += (-my * 1.0 - camera.position.y) * 0.02;
+    camera.lookAt(0, 0, 0);
+
+    // rotate particle cloud
+    ptGeo.attributes.position.array.forEach((_, i) => {});
+    scene.rotation.y = Math.sin(t * 0.1) * 0.05;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+
+/* ══════════════════════════════════════════
+   4. 2D BACKGROUND CANVAS (soft glow circles)
+══════════════════════════════════════════ */
+(function initBg() {
+  const c   = document.getElementById('bg-canvas');
+  const ctx = c.getContext('2d');
+  let W, H;
+  const orbs = [];
+
+  function resize() {
+    W = c.width  = innerWidth;
+    H = c.height = innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (let i = 0; i < 8; i++) {
+    orbs.push({
+      x: Math.random() * innerWidth,
+      y: Math.random() * innerHeight,
+      r: 80 + Math.random() * 180,
+      vx: (Math.random() - .5) * 0.3,
+      vy: (Math.random() - .5) * 0.3,
+      hue: Math.random() < .5 ? 320 : 45,
+      alpha: 0.04 + Math.random() * 0.06,
+    });
+  }
+
+  function drawBg() {
+    ctx.clearRect(0, 0, W, H);
+    orbs.forEach(o => {
+      o.x += o.vx; o.y += o.vy;
+      if (o.x < -o.r) o.x = W + o.r;
+      if (o.x > W + o.r) o.x = -o.r;
+      if (o.y < -o.r) o.y = H + o.r;
+      if (o.y > H + o.r) o.y = -o.r;
+
+      const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+      g.addColorStop(0,   `hsla(${o.hue},80%,55%,${o.alpha})`);
+      g.addColorStop(1,   `hsla(${o.hue},80%,55%,0)`);
+      ctx.beginPath();
+      ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+      ctx.fillStyle = g;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawBg);
+  }
+  drawBg();
+})();
+
+/* ══════════════════════════════════════════
+   5. SURPRISE BUTTON + FIREWORK HEARTS
+══════════════════════════════════════════ */
+document.getElementById('surpriseBtn').addEventListener('click', () => {
+  // Firework burst
+  for (let i = 0; i < 40; i++) {
+    setTimeout(() => {
+      const h = document.createElement('div');
+      h.style.cssText = `
+        position:fixed;
+        z-index:500;
+        font-size:${18+Math.random()*22}px;
+        left:${30+Math.random()*40}%;
+        top:${20+Math.random()*60}%;
+        pointer-events:none;
+        animation: firework ${0.8+Math.random()*.8}s ease-out forwards;
+        transform-origin:center;
+      `;
+      h.textContent = heartChars[Math.floor(Math.random()*heartChars.length)];
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 1600);
+    }, i * 60);
+  }
+
+  // Show popup after short delay
+  setTimeout(() => {
+    document.getElementById('popup').classList.add('active');
+  }, 400);
+});
+
+document.getElementById('popupClose').addEventListener('click', () => {
+  document.getElementById('popup').classList.remove('active');
+});
+document.getElementById('popup').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('popup'))
+    document.getElementById('popup').classList.remove('active');
+});
+
+// Inject firework keyframes
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes firework {
+    0%   { opacity:1; transform: scale(0.3) translate(0,0); }
+    60%  { opacity:1; }
+    100% { opacity:0; transform: scale(1.4) translate(
+             ${Math.round((Math.random()-.5)*140)}px,
+             ${Math.round(-40 - Math.random()*80)}px
+           ); }
+  }
+`;
+document.head.appendChild(style);
+
+/* ══════════════════════════════════════════
+   6. BACKGROUND MUSIC
+══════════════════════════════════════════ */
+let musicStarted = false;
+const musicHint = document.getElementById('musicHint');
+
+function startMusic() {
+  if (musicStarted) return;
+  musicStarted = true;
+  musicHint.classList.add('hidden');
+
+  // Generate a gentle romantic melody with Web Audio API
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) return;
+  const ac = new AudioCtx();
+
+  const notes = [
+    261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25,
+    440.00, 392.00, 349.23, 329.63, 293.66, 261.63, 246.94, 261.63
+  ];
+
+  const reverb = ac.createConvolver();
+  const reverbBuffer = ac.createBuffer(2, ac.sampleRate * 2, ac.sampleRate);
+  for (let ch = 0; ch < 2; ch++) {
+    const d = reverbBuffer.getChannelData(ch);
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/d.length, 3);
+  }
+  reverb.buffer = reverbBuffer;
+
+  const masterGain = ac.createGain();
+  masterGain.gain.setValueAtTime(0.18, ac.currentTime);
+  reverb.connect(masterGain);
+  masterGain.connect(ac.destination);
+
+  let noteIndex = 0;
+  function playNote() {
+    if (ac.state === 'closed') return;
+    const osc  = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(notes[noteIndex % notes.length], ac.currentTime);
+    gain.gain.setValueAtTime(0, ac.currentTime);
+    gain.gain.linearRampToValueAtTime(0.5, ac.currentTime + 0.08);
+    gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 1.1);
+    osc.connect(gain);
+    gain.connect(reverb);
+    osc.start(ac.currentTime);
+    osc.stop(ac.currentTime + 1.2);
+    noteIndex++;
+    setTimeout(playNote, 600 + Math.random() * 200);
+  }
+  playNote();
+}
+
+document.addEventListener('click', startMusic, { once: true });
+document.addEventListener('touchstart', startMusic, { once: true });
+
+/* ══════════════════════════════════════════
+   7. PHOTO LOADING HELPER
+   Replace the src="" above with a URL or
+   set window.SISTER_PHOTO = 'data:image/...'
+══════════════════════════════════════════ */
+// To use your sister's photo, either:
+// A) Replace the <img src=""> with the actual URL
+// B) Uncomment below and set the path:
+//
+// const img = document.getElementById('sisterPhoto');
+// img.src = 'YOUR_PHOTO_URL_HERE';
+// img.style.display = 'block';
+// document.getElementById('photoPlaceholder').style.display = 'none';
+
+</script>
+</body>
+</html>
